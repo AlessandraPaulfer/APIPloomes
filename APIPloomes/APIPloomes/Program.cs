@@ -22,14 +22,14 @@ namespace APIPloomes
     {
         static void Main(string[] args)
         {
-            //ContactsGET();
+            ContactsGET();
             //ContactsPOST();
             //DealsPOST();
             //TasksPOST();
             //DealsPATCH();
             //TasksFinishPOST();
             //DealsWinPOST();
-            InteractionRecordsPOST();
+            //InteractionRecordsPOST();
 
         }
 
@@ -55,13 +55,13 @@ namespace APIPloomes
             }
         }
 
-        public static void ContactsPOST() 
+        public static void ContactsPOST()
         {
             using var client = new HttpClient();
             client.BaseAddress = new Uri("https://api2.ploomes.com");
             client.DefaultRequestHeaders.Add("User-Key", "05EC8DE67A529319DA84464878005930165E6D33F126612C44750A65BF09BB2D77A399600FE01C5FD9185F78257BBE7B1A78537BFBA2528A2FD9A31187D1D53E");
             client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
-            var contact = new Contacts() { Name = "Steve", TypeId = 2, CountryId = 55};
+            var contact = new Contacts() { Name = "Steve teste", TypeId = 2, CountryId = 55 };
 
             var postTask = client.PostAsJsonAsync<Contacts>("Contacts", contact);
             postTask.Wait();
@@ -90,7 +90,7 @@ namespace APIPloomes
             client.BaseAddress = new Uri("https://api2.ploomes.com");
             client.DefaultRequestHeaders.Add("User-Key", "05EC8DE67A529319DA84464878005930165E6D33F126612C44750A65BF09BB2D77A399600FE01C5FD9185F78257BBE7B1A78537BFBA2528A2FD9A31187D1D53E");
             client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
-            var deal = new Deals() { Title= "Proposta", ContactId = 9893108, OwnerId = 1337};
+            var deal = new Deals() { Title = "Proposta", ContactId = 9917553, OwnerId = 1337 };
 
             var postTask = client.PostAsJsonAsync<Deals>("Deals", deal);
             postTask.Wait();
@@ -119,7 +119,7 @@ namespace APIPloomes
             client.BaseAddress = new Uri("https://api2.ploomes.com");
             client.DefaultRequestHeaders.Add("User-Key", "05EC8DE67A529319DA84464878005930165E6D33F126612C44750A65BF09BB2D77A399600FE01C5FD9185F78257BBE7B1A78537BFBA2528A2FD9A31187D1D53E");
             client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
-            var task = new Tasks() { Description = "Tarefa de teste", DateTime = "2020-10-26T15:00:00", Users = new List<Users> { new Users() { UserId = 83614 } }, ContactId = 9893108, DealId = 3009678 };
+            var task = new Tasks() { Description = "Tarefa 3", DateTime = "2020-10-26T15:00:00", Users = new List<Users> { new Users() { UserId = 83614 } }, ContactId = 9917553, DealId = 3020050 };
 
             var postTask = client.PostAsJsonAsync<Tasks>("Tasks", task);
             postTask.Wait();
@@ -142,121 +142,120 @@ namespace APIPloomes
 
         }
 
-        // public static void DealsPATCH()
-        //{
-           // using var client = new HttpClient();
-            //client.BaseAddress = new Uri("https://api2.ploomes.com");
-            //client.DefaultRequestHeaders.Add("User-Key", "05EC8DE67A529319DA84464878005930165E6D33F126612C44750A65BF09BB2D77A399600FE01C5FD9185F78257BBE7B1A78537BFBA2528A2FD9A31187D1D53E");
-            //client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
-            //var responseTask = client.GetAsync("Deals(3009678)");
-            //responseTask.Wait();
-
-            //var result = responseTask.Result;
-            //if (result.IsSuccessStatusCode)
-            //{
-              //  var deal = new Deals() {OwnerId = 1777, Amount = 15000.00};
-
-                //var postDeal = client.PatchAsJsonAsync<Deals>("Deals(3009678)", deal);
-                //postDeal.Wait();
-
-                //var readDeal = result.Content.ReadAsAsync<Deals>();
-                //readDeal.Wait();
-
-                //var insertedDeal = readDeal.Result;
-
-                ///Console.WriteLine("Deal {0} inserted with id: {1}", insertedDeal.OwnerId, insertedDeal.Amount);
-
-            //}
-            //else
-            //{
-              //  Console.WriteLine(result.StatusCode);
-            //}
-        //}
-        public static void TasksFinishPOST()
+        public static void DealsPATCH()
         {
-            using var client = new HttpClient();
+            var client = new HttpClient();
             client.BaseAddress = new Uri("https://api2.ploomes.com");
             client.DefaultRequestHeaders.Add("User-Key", "05EC8DE67A529319DA84464878005930165E6D33F126612C44750A65BF09BB2D77A399600FE01C5FD9185F78257BBE7B1A78537BFBA2528A2FD9A31187D1D53E");
             client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
-            var task = new Tasks() { Finished = true, Comments = "Concluído com sucsso!"};
+            var deal = new Deals() { OwnerId = 1337, Amount = 15000.00};
 
-            var postTask = client.PostAsJsonAsync<Tasks>("Tasks(4244948)/Finish", task);
-            postTask.Wait();
+            var postDeal = client.PatchJsonAsync("Deals(4260574)", typeof (Deals), deal);
+            postDeal.Wait();
 
-            var result = postTask.Result;
+            var result = postDeal.Result;
             if (result.IsSuccessStatusCode)
             {
 
-                var readTask = result.Content.ReadAsAsync<Tasks>();
-                readTask.Wait();
+                var readDeal = result.Content.ReadAsAsync<Deals>();
+                readDeal.Wait();
 
-                var insertedTask = readTask.Result;
+                var insertedDeal = readDeal.Result;
 
-                Console.WriteLine("Task {0} inserted with id: {1}", insertedTask.Finished, insertedTask.Comments);
+                Console.WriteLine("Deal {0} inserted with id: {1}", insertedDeal.OwnerId, insertedDeal.Amount);
+
             }
             else
             {
                 Console.WriteLine(result.StatusCode);
             }
-
-        }
-        public static void DealsWinPOST()
-        {
-            using var client = new HttpClient();
-            client.BaseAddress = new Uri("https://api2.ploomes.com");
-            client.DefaultRequestHeaders.Add("User-Key", "05EC8DE67A529319DA84464878005930165E6D33F126612C44750A65BF09BB2D77A399600FE01C5FD9185F78257BBE7B1A78537BFBA2528A2FD9A31187D1D53E");
-            client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
-            var deal = new Deals() { Orders = new List<Order> { new Order() {Discount = 0, Amount = 15000.00 } } };
-
-            var postTask = client.PostAsJsonAsync<Deals>("Deals(3009678)/Win", deal);
-            postTask.Wait();
-
-            var result = postTask.Result;
-            if (result.IsSuccessStatusCode)
-            {
-
-                var readTask = result.Content.ReadAsAsync<Deals>();
-                readTask.Wait();
-
-                var insertedDeal = readTask.Result;
-
-                Console.WriteLine("Deal {0} inserted with id: {1}", insertedDeal.Discount, insertedDeal.Amount);
-            }
-            else
-            {
-                Console.WriteLine(result.StatusCode);
-            }
-
-        }
-        public static void InteractionRecordsPOST()
-        {
-            using var client = new HttpClient();
-            client.BaseAddress = new Uri("https://api2.ploomes.com");
-            client.DefaultRequestHeaders.Add("User-Key", "05EC8DE67A529319DA84464878005930165E6D33F126612C44750A65BF09BB2D77A399600FE01C5FD9185F78257BBE7B1A78537BFBA2528A2FD9A31187D1D53E");
-            client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
-            var ir = new InteractionRecords() { ContactId = 9893108, Content = "Negócio fechado!"};
-
-            var postTask = client.PostAsJsonAsync<InteractionRecords>("InteractionRecords", ir);
-            postTask.Wait();
-
-            var result = postTask.Result;
-            if (result.IsSuccessStatusCode)
-            {
-
-                var readTask = result.Content.ReadAsAsync<InteractionRecords>();
-                readTask.Wait();
-
-                var insertedIR = readTask.Result;
-
-                Console.WriteLine("Deal {0} inserted with id: {1}", insertedIR.ContactId, insertedIR.Content);
-            }
-            else
-            {
-                Console.WriteLine(result.StatusCode);
-            }
-
         }
 
-    }
-}
+            public static void TasksFinishPOST()
+            {
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://api2.ploomes.com");
+                client.DefaultRequestHeaders.Add("User-Key", "05EC8DE67A529319DA84464878005930165E6D33F126612C44750A65BF09BB2D77A399600FE01C5FD9185F78257BBE7B1A78537BFBA2528A2FD9A31187D1D53E");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
+                var task = new Tasks() { Finished = true, Comments = "Concluído com sucsso!" };
+
+                var postTask = client.PostAsJsonAsync<Tasks>("Tasks(4244948)/Finish", task);
+                postTask.Wait();
+
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+
+                    var readTask = result.Content.ReadAsAsync<Tasks>();
+                    readTask.Wait();
+
+                    var insertedTask = readTask.Result;
+
+                    Console.WriteLine("Task {0} inserted with id: {1}", insertedTask.Finished, insertedTask.Comments);
+                }
+                else
+                {
+                    Console.WriteLine(result.StatusCode);
+                }
+
+            }
+            public static void DealsWinPOST()
+            {
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://api2.ploomes.com");
+                client.DefaultRequestHeaders.Add("User-Key", "05EC8DE67A529319DA84464878005930165E6D33F126612C44750A65BF09BB2D77A399600FE01C5FD9185F78257BBE7B1A78537BFBA2528A2FD9A31187D1D53E");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
+                var deal = new Deals() { Orders = new List<Order> { new Order() { Discount = 0, Amount = 15000 } } };
+
+                var postTask = client.PostAsJsonAsync<Deals>("Deals(3009678)/Win", deal);
+                postTask.Wait();
+
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+
+                    var readTask = result.Content.ReadAsAsync<Deals>();
+                    readTask.Wait();
+
+                    var insertedDeal = readTask.Result;
+
+                    Console.WriteLine("Deal {0} inserted with id: {1}", insertedDeal.Discount, insertedDeal.Amount);
+                }
+                else
+                {
+                    Console.WriteLine(result.StatusCode);
+                }
+
+            }
+            public static void InteractionRecordsPOST()
+            {
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://api2.ploomes.com");
+                client.DefaultRequestHeaders.Add("User-Key", "05EC8DE67A529319DA84464878005930165E6D33F126612C44750A65BF09BB2D77A399600FE01C5FD9185F78257BBE7B1A78537BFBA2528A2FD9A31187D1D53E");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
+                var ir = new InteractionRecords() { ContactId = 9893108, Content = "Negócio fechado!" };
+
+                var postTask = client.PostAsJsonAsync<InteractionRecords>("InteractionRecords", ir);
+                postTask.Wait();
+
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+
+                    var readTask = result.Content.ReadAsAsync<InteractionRecords>();
+                    readTask.Wait();
+
+                    var insertedIR = readTask.Result;
+
+                    Console.WriteLine("Deal {0} inserted with id: {1}", insertedIR.ContactId, insertedIR.Content);
+                }
+                else
+                {
+                    Console.WriteLine(result.StatusCode);
+                }
+
+            }
+
+        }
+   }
 
