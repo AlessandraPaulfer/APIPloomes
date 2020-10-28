@@ -21,4 +21,3 @@ Esse programa faz as seguintes funcionalidades:
  /Deals/Win POST
  /InteractionRecords POST
  
- Para usar cada funcionalidade citada, deverá descomentar os métodos comentados na função Main.
