@@ -8,6 +8,7 @@ namespace APIPloomes.Models
 {
     public class Tasks
     {
+        public int Id { get; set; }
         public string Description { get; set; }
         public string DateTime { get; set; }
         public List<Users> Users { get; set; }

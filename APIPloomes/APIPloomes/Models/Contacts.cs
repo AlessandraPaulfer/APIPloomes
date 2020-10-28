@@ -75,7 +75,7 @@ namespace APIPloomes
     {
         [JsonProperty("@odata.context")]
         public string OdataContext { get; set; }
-        public List<Contacts> contato { get; set; }
+        public List<Contacts> value { get; set; }
     }
 
 }

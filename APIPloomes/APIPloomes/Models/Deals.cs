@@ -9,6 +9,7 @@ namespace APIPloomes.Models
 {
     public class Deals
     {
+        public int Id { get; set;}
         public string Title { get; set; }
         public int ContactId { get; set; }
         public double Amount { get; set; }
